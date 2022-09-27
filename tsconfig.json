@@ -21,7 +21,7 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -29,5 +29,9 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "exclude": ["**/*.spec.ts"]
+  "exclude": [
+    "cypress/**/*.ts",
+    "cypress*",
+    "node_modules/cypress"
+  ]
 }
