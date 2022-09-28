@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   api: {
-    getTodos: 'api/todos'
+    routes: {
+      getTodos: 'api/todos'
+
+    }
   }
 };
 
