@@ -1,6 +1,6 @@
 {
   "name": "angular-todo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "e2e": "ng e2e",
     "e2e:test": "./node_modules/.bin/nightwatch --env 'firefox' --config './nightwatch.conf.js'",
