@@ -24,9 +24,16 @@ describe('TodoListComponent', () => {
   });
 
   it('should load the list of todos on first render', fakeAsync(() => {
-    expect(component.todos).toEqual([]);
+    expect(component.todos).withContext('no todo to start').toEqual([]);
+    /**
+     * Note that I don't test that the service is called.
+     * In my opinion, it's an implementation details.
+     * From a user perspective, I want my todos loaded, I don't need to know where they are coming from.
+     * Also we can argue that then I should only tests that they are available on the screen?
+     * That's a valid point, but hey, I'm only using Angular for the first time :) 
+     * */
     fixture.detectChanges();
     tick();
-    expect(component.todos).toBe(mockTodos);
+    expect(component.todos).withContext("todo are loaded").toBe(mockTodos);
   }));
 });
