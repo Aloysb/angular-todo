@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { asyncData } from 'src/utils';
 
 
 export interface Todo {
@@ -32,6 +33,6 @@ export class MockTodosService implements ITodosService {
   constructor(){}
 
   getTodos(): Observable<Todo[]> {
-    return of(mockTodos)
+    return asyncData(mockTodos);
   }
 }

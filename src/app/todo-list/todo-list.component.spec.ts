@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { mockTodos, MockTodosService, TodosService } from '../todos.service';
 
 import { TodoListComponent } from './todo-list.component';
@@ -23,9 +23,10 @@ describe('TodoListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load the list of todos on first render', () => {
+  it('should load the list of todos on first render', fakeAsync(() => {
     expect(component.todos).toEqual([]);
     fixture.detectChanges();
+    tick();
     expect(component.todos).toBe(mockTodos);
-  })
+  }));
 });
