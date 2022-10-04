@@ -6,16 +6,18 @@ import { Todo, TodosService } from '../todos.service';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
+
 export class TodoListComponent implements OnInit {
   todos:Todo[] = [];
+  isLoading:boolean = true;
 
   constructor(private todosService: TodosService) { 
   }
 
   ngOnInit(): void {
     this.todosService.getTodos().subscribe((todos) => {
-      this.todos = todos
-      console.log('this',this.todos)
+      this.todos = todos;
+      this.isLoading = false;
     })
   }
 

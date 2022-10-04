@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { asyncData } from 'src/utils';
+import { asyncData, asyncError } from 'src/utils';
 
 
 export interface Todo {
@@ -20,6 +20,7 @@ export interface ITodosService {
 export class TodosService implements ITodosService{
   constructor() { }
   getTodos(): Observable<Todo[]> {
+    return asyncData(mockTodos);
     throw new Error('Method not implemented.');
   }
 }
@@ -29,10 +30,19 @@ export const mockTodos:Todo[] = [
   {id: 2, userId:1, title: "Relax", completed: true}
 ]
 
+type MockTodosServiceConstructor = {
+  shouldFail?: boolean;
+};
 export class MockTodosService implements ITodosService {
-  constructor(){}
+  shouldFail: boolean = false;
+
+  constructor({shouldFail } :MockTodosServiceConstructor){
+    this.shouldFail = shouldFail ?? false;
+  }
 
   getTodos(): Observable<Todo[]> {
-    return asyncData(mockTodos);
+    return this.shouldFail ?
+      asyncError(null):
+      asyncData(mockTodos);
   }
 }
