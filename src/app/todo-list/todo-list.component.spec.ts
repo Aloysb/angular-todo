@@ -36,4 +36,13 @@ describe('TodoListComponent', () => {
     tick();
     expect(component.todos).withContext("todo are loaded").toBe(mockTodos);
   }));
+
+  it('should display a loading state while waiting for the todos', fakeAsync(() => {
+    /**
+     * I would normally test the the loading state as part of the happy path (successful return from the server),
+     * but as I'm unfamiliar with Angular I want to take baby steps.
+     */
+    expect(fixture.nativeElement.textContent).withContext('show a loading state while fetching the todos').toContain(/loading/i);
+
+  }))
 });
