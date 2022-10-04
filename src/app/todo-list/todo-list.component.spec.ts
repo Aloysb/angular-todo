@@ -6,6 +6,7 @@ import { TodoListComponent } from './todo-list.component';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
+  let view: HTMLElement;
   let fixture: ComponentFixture<TodoListComponent>;
   const mockTodosService = new MockTodosService();
 
@@ -17,14 +18,24 @@ describe('TodoListComponent', () => {
     .compileComponents();
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
+    view = fixture.nativeElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load the list of todos on first render', fakeAsync(() => {
+  it('should display a loading state while waiting for the todos', fakeAsync(() => {
+    /**
+     * I would normally test the the loading state as part of the happy path (successful return from the server),
+     * but as I'm unfamiliar with Angular I want to take baby steps.
+     */
+    expect(view.textContent)
+      .withContext('show a loading state while fetching the todos')
+      .toMatch(/loading/i);
     expect(component.todos).withContext('no todo to start').toEqual([]);
+  }))
+  it('should load the list of todos on first render', fakeAsync(() => {
     /**
      * Note that I don't test that the service is called.
      * In my opinion, it's an implementation details.
@@ -35,14 +46,11 @@ describe('TodoListComponent', () => {
     fixture.detectChanges();
     tick();
     expect(component.todos).withContext("todo are loaded").toBe(mockTodos);
+
+    mockTodos.forEach(({title}) => {
+      const regexp = new RegExp(title, "i");
+      expect(view).withContext(`contains todo ${title}`).toMatch(regexp);
+    })
   }));
 
-  it('should display a loading state while waiting for the todos', fakeAsync(() => {
-    /**
-     * I would normally test the the loading state as part of the happy path (successful return from the server),
-     * but as I'm unfamiliar with Angular I want to take baby steps.
-     */
-    expect(fixture.nativeElement.textContent).withContext('show a loading state while fetching the todos').toContain(/loading/i);
-
-  }))
 });
