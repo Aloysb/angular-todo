@@ -8,41 +8,42 @@ export interface Todo {
   id: number,
   title: string,
   completed: true
-  };
+};
 
 export interface ITodosService {
-  getTodos():Observable<Todo[]>
+  getTodos(): Observable<Todo[]>
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodosService implements ITodosService{
+export class TodosService implements ITodosService {
   constructor() { }
   getTodos(): Observable<Todo[]> {
     return asyncData(mockTodos);
-    throw new Error('Method not implemented.');
   }
 }
 
-export const mockTodos:Todo[] = [
-  {id: 1, userId: 1, title: "Clean the kitchen", completed: true},
-  {id: 2, userId:1, title: "Relax", completed: true}
+export const mockTodos: Todo[] = [
+  { id: 1, userId: 1, title: "Clean the kitchen", completed: true },
+  { id: 2, userId: 1, title: "Relax", completed: true }
 ]
+
 
 type MockTodosServiceConstructor = {
   shouldFail?: boolean;
 };
-export class MockTodosService implements ITodosService {
-  shouldFail: boolean = false;
 
-  constructor({shouldFail } :MockTodosServiceConstructor){
-    this.shouldFail = shouldFail ?? false;
+export class MockTodosService implements ITodosService {
+  readonly shouldFail: boolean;
+
+  constructor({ shouldFail = false }: MockTodosServiceConstructor) {
+    this.shouldFail = shouldFail;
   }
 
   getTodos(): Observable<Todo[]> {
     return this.shouldFail ?
-      asyncError(null):
+      asyncError('Something went wrong') :
       asyncData(mockTodos);
   }
 }

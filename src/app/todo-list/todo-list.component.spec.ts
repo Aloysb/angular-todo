@@ -8,14 +8,14 @@ describe('TodoListComponent', () => {
   let component: TodoListComponent;
   let view: HTMLElement;
   let fixture: ComponentFixture<TodoListComponent>;
-  const mockTodosService = new MockTodosService({shouldFail:false});
+  const mockTodosService = new MockTodosService({ shouldFail: false });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TodoListComponent ],
-      providers:[{provide:TodosService, useValue: mockTodosService}]
+      declarations: [TodoListComponent],
+      providers: [{ provide: TodosService, useValue: mockTodosService }]
     })
-    .compileComponents();
+      .compileComponents();
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
     view = fixture.nativeElement;
@@ -49,24 +49,32 @@ describe('TodoListComponent', () => {
     fixture.detectChanges();
     tick();
     expect(component.todos).withContext("todo are loaded").toBe(mockTodos);
-    mockTodos.forEach(({title}) => {
+    mockTodos.forEach(({ title }) => {
       const regexp = new RegExp(title, "i");
       expect(fixture.nativeElement.textContent).withContext(`contains todo ${title}`).toMatch(regexp);
     })
   }));
 
   it('should show an error state if there is an error fetching the todos', fakeAsync(() => {
+    const mockFailTodosService = new MockTodosService({ shouldFail: true });
+
+    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      declarations: [ TodoListComponent ],
-      providers:[{provide:TodosService, useValue: mockTodosService}]
+      declarations: [TodoListComponent],
+      providers: [{ provide: TodosService, useValue: mockFailTodosService }]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
     view = fixture.nativeElement;
 
-    expect(view.textContent).toMatch(/error/i);
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(view.textContent).withContext('failed call to getTodos').toMatch(/error/i);
   }))
 
 });
