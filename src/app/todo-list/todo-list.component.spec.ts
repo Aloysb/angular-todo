@@ -6,19 +6,18 @@ import { TodoListComponent } from './todo-list.component';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
-  let view: HTMLElement;
+  let template: HTMLElement;
   let fixture: ComponentFixture<TodoListComponent>;
-  const mockTodosService = new MockTodosService({ shouldFail: false });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TodoListComponent],
-      providers: [{ provide: TodosService, useValue: mockTodosService }]
+      providers: [{ provide: TodosService, useValue: new MockTodosService() }]
     })
       .compileComponents();
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
-    view = fixture.nativeElement;
+    template = fixture.nativeElement;
   });
 
   it('should create', () => {
@@ -31,7 +30,7 @@ describe('TodoListComponent', () => {
      * but as I'm unfamiliar with Angular I want to take baby steps.
      */
     fixture.detectChanges();
-    expect(view.textContent)
+    expect(template.textContent)
       .withContext('show a loading state while fetching the todos')
       .toMatch(/loading/i);
     expect(component.todos).withContext('no todo to start').toEqual([]);
@@ -56,25 +55,22 @@ describe('TodoListComponent', () => {
   }));
 
   it('should show an error state if there is an error fetching the todos', fakeAsync(() => {
-    const mockFailTodosService = new MockTodosService({ shouldFail: true });
-
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       declarations: [TodoListComponent],
-      providers: [{ provide: TodosService, useValue: mockFailTodosService }]
+      providers: [{ provide: TodosService, useValue: new MockTodosService({ shouldFail: true }) }]
     })
       .compileComponents();
 
     fixture = TestBed.createComponent(TodoListComponent);
-    component = fixture.componentInstance;
-    view = fixture.nativeElement;
+    template = fixture.nativeElement;
 
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
     tick();
 
-    expect(view.textContent).withContext('failed call to getTodos').toMatch(/error/i);
+    expect(template.textContent).withContext('failed call to getTodos').toMatch(/error/i);
   }))
 
 });

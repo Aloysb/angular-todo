@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Todo, TodosService } from '../todos.service';
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })

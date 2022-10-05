@@ -31,13 +31,13 @@ export const mockTodos: Todo[] = [
 
 
 type MockTodosServiceConstructor = {
-  shouldFail?: boolean;
+  shouldFail: boolean;
 };
 
 export class MockTodosService implements ITodosService {
   readonly shouldFail: boolean;
 
-  constructor({ shouldFail = false }: MockTodosServiceConstructor) {
+  constructor({ shouldFail }: MockTodosServiceConstructor = { shouldFail: false }) {
     this.shouldFail = shouldFail;
   }
 
