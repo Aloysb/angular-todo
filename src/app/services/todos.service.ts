@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { asyncData, asyncError } from 'src/utils';
+import { Observable } from 'rxjs';
+import { asyncData, asyncError } from '@utils/index';
+import { Todo } from '@models/todo.model';
 
 
-export interface Todo {
-  userId: number,
-  id: number,
-  title: string,
-  completed: true
-};
+
 
 export interface ITodosService {
   getTodos(): Observable<Todo[]>

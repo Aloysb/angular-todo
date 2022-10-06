@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { mockTodos, MockTodosService, TodosService } from '../todos.service';
+import { mockTodos, MockTodosService, TodosService } from '@services/todos.service';
 
 import { TodoListComponent } from './todo-list.component';
 
